@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVB'li Glitch Efekti</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* SVB Buton Stili */
+        .svb-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #009900);
+            border: 2px solid #00ff00;
+            color: #000;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5),
+                        inset 0 0 10px rgba(0, 255, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: button-glow 2s infinite alternate;
+        }
+        .Öğrenme-button {
+         position:absolute;
+            top: 10px;
+            left:  1000px;
+            z-index: 100;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #009900);
+            border: 2px solid #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 12px rgba(0, 255, 0, 0.5),
+                        inset 0 0 12px rgba(0, 255, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: button-glow 2s infinite alternate;
+        }
+        .Öğrenme-button:hover {
+            background: linear-gradient(45deg, #00ff00, #00ff00, #00cc00);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.8),
+                        inset 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }    
+        .Öğrenme-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }    
+
+        .svb-button:hover {
+            background: linear-gradient(45deg, #00ff00, #00ff00, #00cc00);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.8),
+                        inset 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .svb-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        @keyframes button-glow {
+            0% {
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.5),
+                           inset 0 0 10px rgba(0, 255, 0, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(0, 255, 0, 0.8),
+                           inset 0 0 15px rgba(0, 255, 0, 0.5);
+            }
+        }
+
+        /* Şifre Modal */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #001100;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            text-align: center;
+            width: 300px;
+        }
+
+        .modal-title {
+            color: #00ff00;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #000;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .password-input::placeholder {
+            color: #008800;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            border: 1px solid #00ff00;
+            color: #000;
+            padding: 12px 30px;
+            margin: 10px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #00ff00, #00ff00);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            border: 1px solid #ff0000;
+            color: #000;
+            padding: 12px 30px;
+            margin: 10px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            display: none;
+        }
+
+        /* Başarılı Mesaj */
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #001100;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            text-align: center;
+            z-index: 1001;
+            color: #00ff00;
+            font-size: 1.2rem;
+        }
+
+        .redirect-countdown {
+            font-size: 1rem;
+            margin-top: 15px;
+            color: #00cc00;
+        }
+
+        /* Glitch Text */
+        .glitch-combined {
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+            position: relative;
+            animation: glitch-combined 2s infinite;
+        }
+
+        /* Ana glitch animasyonu */
+        @keyframes glitch-combined {
+            0%, 100% { 
+                transform: translate(0);
+                text-shadow: 0 0 0 transparent;
+            }
+            10% { 
+                transform: translate(-2px, 1px);
+                text-shadow: 2px 0 0 rgba(255, 0, 0, 0.8);
+            }
+            20% { 
+                transform: translate(2px, -1px);
+                text-shadow: -2px 0 0 rgba(0, 255, 255, 0.8);
+            }
+            30% { 
+                transform: translate(-1px, 2px);
+            }
+            40% { 
+                transform: translate(1px, -2px);
+            }
+            50% { 
+                transform: translate(-3px, 0);
+                text-shadow: 3px 0 0 rgba(255, 0, 255, 0.8);
+            }
+            60% { 
+                transform: translate(3px, 1px);
+            }
+            70% { 
+                transform: translate(-1px, -1px);
+                text-shadow: -3px 0 0 rgba(0, 255, 0, 0.8);
+            }
+            80% { 
+                transform: translate(2px, 2px);
+            }
+            90% { 
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        /* RGB Split efekti için pseudo elementler */
+        .glitch-combined::before,
+        .glitch-combined::after {
+            content: "D4taking yönlendirme...";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-combined::before {
+            animation: glitch-before 3s infinite linear alternate-reverse;
+            color: #ff00ff;
+            z-index: -1;
+        }
+
+        .glitch-combined::after {
+            animation: glitch-after 2s infinite linear alternate-reverse;
+            color: #00ffff;
+            z-index: -2;
+        }
+
+        @keyframes glitch-before {
+            0% { 
+                transform: translate(0);
+                clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            }
+            10% { 
+                transform: translate(-4px, 2px);
+                clip-path: polygon(0 15%, 100% 15%, 100% 65%, 0 65%);
+            }
+            20% { 
+                transform: translate(4px, -2px);
+                clip-path: polygon(0 45%, 100% 45%, 100% 75%, 0 75%);
+            }
+            30% { 
+                transform: translate(-3px, 3px);
+                clip-path: polygon(0 25%, 100% 25%, 100% 55%, 0 55%);
+            }
+            40% { 
+                transform: translate(3px, -3px);
+                clip-path: polygon(0 65%, 100% 65%, 100% 85%, 0 85%);
+            }
+            50% { 
+                transform: translate(-5px, 1px);
+                clip-path: polygon(0 5%, 100% 5%, 100% 45%, 0 45%);
+            }
+            60% { 
+                transform: translate(5px, -1px);
+                clip-path: polygon(0 75%, 100% 75%, 100% 95%, 0 95%);
+            }
+            70% { 
+                transform: translate(-2px, 4px);
+                clip-path: polygon(0 35%, 100% 35%, 100% 85%, 0 85%);
+            }
+            80% { 
+                transform: translate(2px, -4px);
+                clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            }
+            90% { 
+                transform: translate(-4px, -2px);
+                clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%);
+            }
+            100% { 
+                transform: translate(4px, 2px);
+                clip-path: polygon(0 85%, 100% 85%, 100% 100%, 0 100%);
+            }
+        }
+
+        @keyframes glitch-after {
+            0% { 
+                transform: translate(0);
+                clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            }
+            15% { 
+                transform: translate(3px, -2px);
+                clip-path: polygon(0 25%, 100% 25%, 100% 45%, 0 45%);
+            }
+            25% { 
+                transform: translate(-3px, 2px);
+                clip-path: polygon(0 75%, 100% 75%, 100% 95%, 0 95%);
+            }
+            35% { 
+                transform: translate(2px, 3px);
+                clip-path: polygon(0 15%, 100% 15%, 100% 35%, 0 35%);
+            }
+            45% { 
+                transform: translate(-2px, -3px);
+                clip-path: polygon(0 55%, 100% 55%, 100% 85%, 0 85%);
+            }
+            55% { 
+                transform: translate(4px, 1px);
+                clip-path: polygon(0 5%, 100% 5%, 100% 65%, 0 65%);
+            }
+            65% { 
+                transform: translate(-4px, -1px);
+                clip-path: polygon(0 35%, 100% 35%, 100% 75%, 0 75%);
+            }
+            75% { 
+                transform: translate(1px, 4px);
+                clip-path: polygon(0 45%, 100% 45%, 100% 100%, 0 100%);
+            }
+            85% { 
+                transform: translate(-1px, -4px);
+                clip-path: polygon(0 0, 100% 0, 100% 15%, 0 15%);
+            }
+            95% { 
+                transform: translate(3px, 2px);
+                clip-path: polygon(0 85%, 100% 85%, 100% 100%, 0 100%);
+            }
+            100% { 
+                transform: translate(-3px, -2px);
+                clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%);
+            }
+        }
+
+        /* Hover efekti */
+        .glitch-combined:hover {
+            animation-duration: 0.5s;
+        }
+
+        .glitch-combined:hover::before {
+            animation-duration: 1s;
+        }
+
+        .glitch-combined:hover::after {
+            animation-duration: 0.8s;
+        }
+    </style>
+</head>
+<body>
+    <!-- SVB Butonu -->
+    <button class="svb-button" onclick="openPasswordModal()">SVB'ler için yaz</button>
+    <button class="Öğrenme-button" onclick="openPasswordModal()"> Silver bulleti Öğrenmek için</button>
+
+    <!-- Glitch Text -->
+    <div class="glitch-combined">D4taking yönlendirme...</div>
+
+    <!-- Şifre Modal -->
+    <div id="passwordModal" class="password-modal">
+        <div class="modal-content">
+            <div class="modal-title">GİRİŞ KONTROLÜ</div>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Şifreyi girin...">
+            <div class="error-message" id="errorMessage">Hatalı şifre!</div>
+            <div>
+                <button class="submit-btn" onclick="checkPassword()">GİRİŞ</button>
+                <button class="cancel-btn" onclick="closePasswordModal()">İPTAL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Başarılı Mesaj -->
+    <div id="successMessage" class="success-message">
+        <div>✅ Giriş Başarılı!</div>
+        <div>Telegram'a yönlendiriliyorsunuz...</div>
+        <div class="redirect-countdown" id="countdown">3</div>
+    </div>
+
+    <script>
+        // Şifre kontrolü - istediğin şifreyi buraya yazabilirsin
+        const CORRECT_PASSWORD = "1234"; // Bu şifreyi değiştirebilirsin
+        const TELEGRAM_URL = "https://t.me/D4ta_king"; // Telegram linki
+        const TELEGREAM_URL2 = "https://t.me/D4TABREACH"
+
+        function openPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (password === CORRECT_PASSWORD) {
+                // Şifre doğru - başarılı mesajı göster
+                closePasswordModal();
+                showSuccessMessage();
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+                
+                // Hata mesajını 3 saniye sonra gizle
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            const countdownElement = document.getElementById('countdown');
+            
+            successMessage.style.display = 'block';
+            
+            let countdown = 3;
+            countdownElement.textContent = countdown;
+            
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    redirectToTelegram();
+                }
+            }, 1000);
+        }
+
+        function redirectToTelegram() {
+            // Telegram'a yönlendir
+         
+            window.location.href = TELEGREAM_URL2;
+        }
+
+        // Enter tuşu ile şifre gönderme
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Modal dışına tıklayınca kapatma
+        document.getElementById('passwordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePasswordModal();
+            }
+        });
+    </script>
+</body>
+</html>
